@@ -15,5 +15,5 @@ public interface BoardJPARepository extends JpaRepository<Board,Integer> {
         join fetch b.user u
         where b.id=:boardId
         """)
-    Optional<User> findByDetail(@Param("boardId") Integer boardId);
+    Optional<Board> findByBoardId(@Param("boardId") Integer boardId);
 }

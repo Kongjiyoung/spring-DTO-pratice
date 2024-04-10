@@ -37,8 +37,8 @@ public class BoardService {
         return new BoardResponse.BoardDTO(board);
     }
 
-    public BoardResponse.BoardDetailDTO boardDetail(Integer boardId, Integer userId) {
-        Board board=boardJPARepository.findById(boardId).orElseThrow(() -> new Exception404("해당 페이지가 없습니다"));
+    public BoardResponse.BoardDetailDTO boardDetailIsOwner(Integer boardId, Integer userId) {
+        Board board=boardJPARepository.findByBoardId(boardId).orElseThrow(() -> new Exception404("해당 페이지가 없습니다"));
         List<Reply> replies = replyJPARepository.findByBoardId(boardId);
 
         board.setBoardOwner(false);
@@ -47,5 +47,17 @@ public class BoardService {
         }
 
         return new BoardResponse.BoardDetailDTO(board, replies);
+    }
+    public BoardResponse.BoardDetailDTO boardDetail(Integer boardId) {
+        Board board=boardJPARepository.findByBoardId(boardId).orElseThrow(() -> new Exception404("해당 페이지가 없습니다"));
+        List<Reply> replies = replyJPARepository.findByBoardId(boardId);
+
+        board.setBoardOwner(false);
+
+        return new BoardResponse.BoardDetailDTO(board, replies);
+    }
+    public void delete(Integer boardId) {
+        Board board=boardJPARepository.findById(boardId).orElseThrow(() -> new Exception404("해당 페이지가 없습니다"));
+        boardJPARepository.delete(board);
     }
 }

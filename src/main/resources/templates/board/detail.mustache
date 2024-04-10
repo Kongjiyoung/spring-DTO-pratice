@@ -39,17 +39,17 @@
             <b>댓글리스트</b>
         </div>
         <div class="list-group">
-            {{#board.relies}}
+            {{#board.replies}}
                 <div class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="d-flex">
-                        <div class="px-1 me-1 bg-primary text-white rounded">{{user.username}}</div>
+                        <div class="px-1 me-1 bg-primary text-white rounded">{{username}}</div>
                         <div>{{comment}}</div>
                     </div>
-                    <form action="/board/{{board.id}}/reply/delete" method="post">
+                    <form action="/reply/{{id}}/delete" method="post">
                         <button class="btn">🗑</button>
                     </form>
                 </div>
-            {{/board.relies}}
+            {{/board.replies}}
 
         </div>
     </div>

@@ -7,6 +7,7 @@ import java.util.List;
 
 public class BoardResponse {
 
+    @Data
     public static class BoardDTO {
         private int id;
         private String title;
@@ -42,6 +43,7 @@ public class BoardResponse {
         }
     }
 
+    @Data
     public static class BoardDetailDTO {
         private int id;
         private String title;
@@ -59,6 +61,7 @@ public class BoardResponse {
             this.replies=replies.stream().map(reply -> new ReplyDTO(reply)).toList();
         }
 
+        @Data
         public class ReplyDTO{
             private int id;
             private int userId;

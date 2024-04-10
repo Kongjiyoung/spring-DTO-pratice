@@ -40,8 +40,15 @@ public class BoardController {
     @GetMapping("/board/{boardId}")
     public String detail(@PathVariable Integer boardId, HttpServletRequest request) {  // int 를 쓰면 값이 없으면 0, Integer 를 넣으면 값이 없을 때 null 값이 들어옴.
         User sessionUser = (User) session.getAttribute("sessionUser");
-        BoardResponse.BoardDetailDTO boardDetail=boardService.boardDetail(boardId, sessionUser.getId());
+        if (sessionUser != null) {
+            BoardResponse.BoardDetailDTO boardDetail = boardService.boardDetailIsOwner(boardId, sessionUser.getId());
+            request.setAttribute("board",boardDetail);
+            System.out.println("boardDetail = " + boardDetail);
+            return "board/detail";
+        }
+        BoardResponse.BoardDetailDTO boardDetail = boardService.boardDetail(boardId);
         request.setAttribute("board",boardDetail);
+        System.out.println("boardDetail = " + boardDetail);
         return "board/detail";
     }
 
@@ -55,5 +62,11 @@ public class BoardController {
     public String update(@PathVariable Integer boardId, BoardRequest.UpdateDTO reqDTO){
         BoardResponse.BoardDTO respDTO=boardService.update(boardId,reqDTO);
         return "redirect:/board/"+boardId;
+    }
+
+    @PostMapping("/board/{boardId}/delete")
+    public String update(@PathVariable Integer boardId){
+        boardService.delete(boardId);
+        return "redirect:/";
     }
 }
