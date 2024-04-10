@@ -31,10 +31,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(UserRequest.LoginDTO reqDTO){
-        userService.findByUsernameAndPassword(reqDTO);
-        session.setAttribute(user);
-        return "/";
+    public String login(UserRequest.LoginDTO reqDTO,HttpServletRequest request){
+        User user=userService.login(reqDTO);
+        session.setAttribute("sessionUser", user);
+        request.setAttribute("sessionUser", user);
+        return "redirect:/";
     }
     @GetMapping("/user/update-form")
     public String updateForm(HttpServletRequest request) {

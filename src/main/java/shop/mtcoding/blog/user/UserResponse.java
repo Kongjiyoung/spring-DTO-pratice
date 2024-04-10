@@ -20,6 +20,11 @@ public class UserResponse {
     public static class LoginDTO {
         private String username;
         private String password;
+
+        public LoginDTO(User user) {
+            this.username = user.getUsername();
+            this.password = user.getPassword();
+        }
     }
 
 }
