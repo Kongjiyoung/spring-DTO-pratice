@@ -3,6 +3,8 @@ package shop.mtcoding.blog.board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
+import shop.mtcoding.blog.reply.Reply;
+import shop.mtcoding.blog.reply.ReplyJPARepository;
 
 import java.util.List;
 
@@ -11,6 +13,7 @@ import java.util.List;
 public class BoardService {
 
     private final BoardJPARepository boardJPARepository ;
+    private final ReplyJPARepository replyJPARepository;
 
     public List<BoardResponse.BoardTitleDTO> findboards(){
         List<Board> boards=boardJPARepository.findAll();
@@ -32,5 +35,17 @@ public class BoardService {
         board.update(reqDTO);
 
         return new BoardResponse.BoardDTO(board);
+    }
+
+    public BoardResponse.BoardDetailDTO boardDetail(Integer boardId, Integer userId) {
+        Board board=boardJPARepository.findById(boardId).orElseThrow(() -> new Exception404("해당 페이지가 없습니다"));
+        List<Reply> replies = replyJPARepository.findByBoardId(boardId);
+
+        board.setBoardOwner(false);
+        if (board.getUser().getId().equals(userId)){
+            board.setBoardOwner(true);
+        }
+
+        return new BoardResponse.BoardDetailDTO(board, replies);
     }
 }
