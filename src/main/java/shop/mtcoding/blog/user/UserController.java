@@ -39,7 +39,17 @@ public class UserController {
     }
     @GetMapping("/user/update-form")
     public String updateForm(HttpServletRequest request) {
+        User user=(User)session.getAttribute("sessionUser");
+        request.setAttribute("user", user);
         return "user/update-form";
+    }
+
+    @PostMapping("/user/update")
+    public String update(UserRequest.UpdateDTO reqDTO){
+        User user=(User)session.getAttribute("sessionUser");
+        user.update(reqDTO);
+        session.setAttribute("sessionUser", user);
+        return "redirect:/";
     }
 
     @GetMapping("/logout")
