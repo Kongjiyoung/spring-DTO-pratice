@@ -15,4 +15,9 @@ public class BoardService {
         List<Board> boards=boardJPARepository.findAll();
         return boards.stream().map(BoardResponse.BoardDTO::new).toList();
     }
+
+    public BoardResponse.BoardDTO Save(BoardRequest.SaveDTO reqDTO) {
+        Board board=boardJPARepository.save(reqDTO.toEntity());
+        return new BoardResponse.BoardDTO(board);
+    }
 }
