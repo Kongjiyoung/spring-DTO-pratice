@@ -2,6 +2,7 @@ package shop.mtcoding.blog.reply;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
 import shop.mtcoding.blog.board.Board;
 import shop.mtcoding.blog.board.BoardJPARepository;
@@ -17,6 +18,8 @@ public class ReplyService {
     private final UserJPARepository userJPARepository;
     private final BoardJPARepository boardJPARepository;
 
+
+    @Transactional
     public ReplyResponse.SaveDTO Save(int userId, int boardId, ReplyRequest.SaveDTO reqDTO) {
         User user = userJPARepository.findById(userId).orElseThrow();
         Board board = boardJPARepository.findById(boardId).orElseThrow();
@@ -25,6 +28,8 @@ public class ReplyService {
         Reply reply=replyJPARepository.save(reqDTO.toEntity());
         return new ReplyResponse.SaveDTO(reply);
     }
+
+    @Transactional
     public void delete(Integer replyId) {
         Reply reply=replyJPARepository.findById(replyId).orElseThrow(() -> new Exception404("해당 페이지가 없습니다"));
         replyJPARepository.delete(reply);

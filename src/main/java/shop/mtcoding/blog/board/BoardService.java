@@ -2,6 +2,7 @@ package shop.mtcoding.blog.board;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
 import shop.mtcoding.blog.reply.Reply;
 import shop.mtcoding.blog.reply.ReplyJPARepository;
@@ -20,6 +21,7 @@ public class BoardService {
         return boards.stream().map(BoardResponse.BoardTitleDTO::new).toList();
     }
 
+    @Transactional
     public BoardResponse.BoardSaveDTO Save(BoardRequest.SaveDTO reqDTO) {
         Board board=boardJPARepository.save(reqDTO.toEntity());
         return new BoardResponse.BoardSaveDTO(board);
@@ -30,10 +32,13 @@ public class BoardService {
         return new BoardResponse.BoardDTO(board);
     }
 
+    @Transactional
     public BoardResponse.BoardDTO update(Integer boardId, BoardRequest.UpdateDTO reqDTO) {
         Board board=boardJPARepository.findById(boardId).orElseThrow(() -> new Exception404("해당 페이지가 없습니다"));
-        board.update(reqDTO);
-
+//        board.update(reqDTO);
+        board.setTitle(reqDTO.getTitle());
+        board.setContent(reqDTO.getContent());
+        System.out.println(" board= " + new BoardResponse.BoardDTO(board));
         return new BoardResponse.BoardDTO(board);
     }
 
@@ -56,6 +61,8 @@ public class BoardService {
 
         return new BoardResponse.BoardDetailDTO(board, replies);
     }
+
+    @Transactional
     public void delete(Integer boardId) {
         Board board=boardJPARepository.findById(boardId).orElseThrow(() -> new Exception404("해당 페이지가 없습니다"));
         boardJPARepository.delete(board);

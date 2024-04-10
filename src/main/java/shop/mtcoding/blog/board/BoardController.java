@@ -61,11 +61,12 @@ public class BoardController {
     @PostMapping("/board/{boardId}/update")
     public String update(@PathVariable Integer boardId, BoardRequest.UpdateDTO reqDTO){
         BoardResponse.BoardDTO respDTO=boardService.update(boardId,reqDTO);
+        System.out.println("respDTO = " + respDTO);
         return "redirect:/board/"+boardId;
     }
 
     @PostMapping("/board/{boardId}/delete")
-    public String update(@PathVariable Integer boardId){
+    public String delete(@PathVariable Integer boardId){
         boardService.delete(boardId);
         return "redirect:/";
     }
