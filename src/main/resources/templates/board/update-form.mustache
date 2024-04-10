@@ -8,16 +8,14 @@
     <div class="card">
         <div class="card-header"><b>게시글을 수정 해주세요</b></div>
         <div class="card-body">
-            <form action="/board/update" method="post" enctype="application/x-www-form-urlencoded">
+            <form action="/board/{{board.id}}/update" method="post" enctype="application/x-www-form-urlencoded">
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter username" name="username" disabled>
+                    <input type="text" class="form-control" placeholder="{{board.title}}" name="title">
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" placeholder="Enter password" name="password">
+                    <input type="text" class="form-control" placeholder="{{board.title}}" name="content">
                 </div>
-                <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Enter email" name="email">
-                </div>
+
                 <button type="submit" class="btn btn-primary form-control">게시글수정</button>
             </form>
         </div>

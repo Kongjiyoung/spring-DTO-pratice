@@ -43,4 +43,9 @@ public class Board {
         this.user = user;
         this.createdAt = createdAt;
     }
+
+    public void update(BoardRequest.UpdateDTO reqDTO){
+        this.title = reqDTO.getTitle();
+        this.content = reqDTO.getContent();
+    }
 }

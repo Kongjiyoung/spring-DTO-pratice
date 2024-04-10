@@ -20,7 +20,7 @@ public class BoardController {
 
     @GetMapping({ "/"})
     public String index(HttpServletRequest request) {
-        List<BoardResponse.BoardDTO> boards=boardService.findboards();
+        List<BoardResponse.BoardTitleDTO> boards=boardService.findboards();
         request.setAttribute("boards", boards);
         return "index";
     }
@@ -37,10 +37,20 @@ public class BoardController {
     }
 
     @GetMapping("/board/{boardId}")
-    public String detail(@PathVariable Integer boardId) {  // int 를 쓰면 값이 없으면 0, Integer 를 넣으면 값이 없을 때 null 값이 들어옴.
+    public String detail(@PathVariable Integer boardId, HttpServletRequest request) {  // int 를 쓰면 값이 없으면 0, Integer 를 넣으면 값이 없을 때 null 값이 들어옴.
+
         return "board/detail";
     }
 
     @GetMapping("/board/{boardId}/update-form")
-    public String updateForm(@PathVariable Integer boardId){return "board/update-form";}
+    public String updateForm(@PathVariable Integer boardId, HttpServletRequest request){
+        BoardResponse.BoardDTO board = boardService.findboard(boardId);
+        request.setAttribute("board", board);
+        return "board/update-form";}
+
+    @PostMapping("/board/{boardId}/update")
+    public String update(@PathVariable Integer boardId, BoardRequest.UpdateDTO reqDTO){
+        BoardResponse.BoardDTO respDTO=boardService.update(boardId,reqDTO);
+        return "redirect:/board/"+boardId;
+    }
 }

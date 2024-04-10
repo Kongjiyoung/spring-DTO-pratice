@@ -3,6 +3,7 @@ package shop.mtcoding.blog.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
+import shop.mtcoding.blog._core.errors.exception.Exception403;
 
 @RequiredArgsConstructor
 @Service
@@ -22,4 +23,9 @@ public class UserService {
     }
 
 
+    public User update(int userId,UserRequest.UpdateDTO reqDTO) {
+        User user=userJPARepository.findById(userId).orElseThrow(() -> new Exception403("해당 유저는 존재하지 않습니다"));
+        user.update(reqDTO);
+        return user;
+    }
 }
